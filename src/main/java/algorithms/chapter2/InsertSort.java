@@ -1,4 +1,4 @@
-package algorithms.chapter1;
+package algorithms.chapter2;
 
 import util.Util;
 
