@@ -1,6 +1,6 @@
 package algorithms.chapter2;
 
-import util.Util;
+import array.Util;
 
 /******************************************************************************
  *  插入排序，具体的伪代码如下：

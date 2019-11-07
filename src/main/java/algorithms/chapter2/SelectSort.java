@@ -1,6 +1,6 @@
 package algorithms.chapter2;
 
-import util.Util;
+import array.Util;
 
 /**
  * @author guizhai
