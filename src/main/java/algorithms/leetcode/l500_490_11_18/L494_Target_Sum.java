@@ -38,6 +38,7 @@ There are 5 ways to assign symbols to make the sum of nums be target 3.
 */
 
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,65 +60,113 @@ public class L494_Target_Sum {
 
     /**
      * 递归的方案
-     * */
-    public int findTargetSumWays(int[] nums, int S) {
-        if(nums == null || nums.length == 0) return 0;
-        int res = findTargetSumWays(nums,nums.length-1,S);
+     */
+    public int findTargetSumWays(int[] nums, int s) {
+        if (nums == null || nums.length == 0) return 0;
+        int sum = 0;
+        for (int i : nums) sum += i;
+        if (s > sum || s < -sum) return 0;
+
+        int res = findTargetSumWays(nums, nums.length - 1, s);
         return res;
     }
 
     private int findTargetSumWays(int[] nums, int i, int s) {
-        if(i==0 && (s== nums[0] || s == -nums[0])){
+        if (i == -1 && (s == 0)) {
             return 1;
-        }else if(i >0){
-            int v1 = findTargetSumWays(nums,i-1,s-nums[i]);
-            int v2 = findTargetSumWays(nums,i-1,s+nums[i]);
-            int value = v1+v2;
-            return value;
-        }else{
-            return 0;
+        } else if (i >= 0) {
+            int v1 = findTargetSumWays(nums, i - 1, s - nums[i]);
+            int v2 = findTargetSumWays(nums, i - 1, s + nums[i]);
+            return v1 + v2;
         }
+
+        return 0;
 
     }
 
+
     /**
-     * 递归的缓存写法
-     * */
-    public int findTargetSumWays_cache(int[] nums, int S) {
+     * 递归的缓存写法,中间出现了一个文件，想声明缓存为一个数组i 和 sum 来进行二维的缓存，但是
+     * 具体的方程中 sum 为 负值，就不能作为数组的索引了，所以另外的想办法：采用map的数据结构
+     *
+     */
+    public int findTargetSumWays_cache(int[] nums, int s) {
         if(nums == null || nums.length == 0) return 0;
-        int[][] cache = new int[nums.length][1000];
-        int res = findTargetSumWays_cahce(nums,nums.length-1,S,cache);
+        int sum = 0;
+        for (int i : nums) sum += i;
+        if (s > sum || s < -sum) return 0;
+
+        Map<String,Integer> cache = new HashMap<>();
+        int res = findTargetSumWays_cahce(nums,nums.length-1,s,cache);
         return res;
     }
 
-    private int findTargetSumWays_cahce(int[] nums, int i, int s,int[][] cache) {
-        if(i==0 && (s== nums[0] || s == -nums[0])){
+    private int findTargetSumWays_cahce(int[] nums, int i, int s,Map<String,Integer> cache) {
+        if(i== -1 && (s== 0)){
             return 1;
-        }else if(i >0){
-            if(cache[i][s] != 0) return cache[i][s];
+        }else if(i >=0){
+            String key = i+"=>"+s;
+//            if(cache.containsKey(key)) return cache.get(key);
             int v1 = findTargetSumWays_cahce(nums,i-1,s-nums[i],cache);
             int v2 = findTargetSumWays_cahce(nums,i-1,s+nums[i],cache);
             int value = v1+v2;
-            cache[i][s] = value;
+            cache.put(key,value);
             return value;
         }else{
             return 0;
         }
-
     }
 
+    /**
+     * 然后才是DP的解决方案，我们从低到高的形式来构建
+     * 解决的办法，s不是为负值的时候，不能使用数组吗？
+     * 那么，我们就采用一种变通的方案：s+最大的和值，sum，保持一种一一对应的关系即可。
+     * */
+    public int findTargetSumWays_DP(int[] nums, int s) {
+        int sum = 0;
+        for(int i: nums) sum+=i;
+        if(s>sum || s<-sum) return 0;
+        int[] dp = new int[2*sum+1];
+        dp[0+sum] = 1;
+        // 首先是从低到高的构建，直接的循环构建DP的临时数组即可
+        // 其实也就是dp[2*sum+1][0,,i,,nums[i] 格式的构建，更容易理解了
+        for(int i = 0; i<nums.length; i++){
+            int[] next = new int[2*sum+1];
+            for(int k = 0; k<2*sum+1; k++){
+                if(dp[k]!=0){
+                    next[k + nums[i]] += dp[k];
+                    next[k - nums[i]] += dp[k];
+                }
+            }
+            dp = next;
+        }
+        return dp[sum+s];
+    }
 
 
     public static void main(String[] args) {
 
         L494_Target_Sum test = new L494_Target_Sum();
 
-        int res = test.findTargetSumWays(new int[]{1, 1, 1, 1, 1},3);
+        int res = test.findTargetSumWays(new int[]{1, 1, 1, 1, 1}, 3);
         int res1 = test.findTargetSumWays_cache(new int[]{1, 1, 1, 1, 1},3);
         System.out.println(res + " "+ res1);
 
-        res = test.findTargetSumWays(new int[]{1, 1, 1, 1, 1},4);
-        res1 = test.findTargetSumWays_cache(new int[]{1, 1, 1, 1, 1},4);
+        res = test.findTargetSumWays(new int[]{1, 1}, 0);
+        res1 = test.findTargetSumWays_cache(new int[]{1, 1},0);
         System.out.println(res + " "+ res1);
+
+        res = test.findTargetSumWays(new int[]{0,0,0,0,0,0,0,0,1}, 1);
+        res1 = test.findTargetSumWays_cache(new int[]{0,0,0,0,0,0,0,0,1}, 1);
+        System.out.println(res + " "+ res1);
+
+        res = test.findTargetSumWays(new int[]{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}, 0);
+        res1 = test.findTargetSumWays_cache(new int[]{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}, 0);
+        System.out.println(res + " "+ res1);
+
+
+//        res = test.findTargetSumWays(new int[]{1, 1, 1, 1, 1},5);
+//        res1 = test.findTargetSumWays_cache(new int[]{1, 1, 1, 1, 1},4);
+//        System.out.println(res + " "+ res1);
     }
 }
