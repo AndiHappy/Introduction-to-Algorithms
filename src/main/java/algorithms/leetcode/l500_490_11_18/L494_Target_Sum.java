@@ -106,7 +106,7 @@ public class L494_Target_Sum {
             return 1;
         }else if(i >=0){
             String key = i+"=>"+s;
-//            if(cache.containsKey(key)) return cache.get(key);
+            if(cache.containsKey(key)) return cache.get(key);
             int v1 = findTargetSumWays_cahce(nums,i-1,s-nums[i],cache);
             int v2 = findTargetSumWays_cahce(nums,i-1,s+nums[i],cache);
             int value = v1+v2;
@@ -143,6 +143,35 @@ public class L494_Target_Sum {
         return dp[sum+s];
     }
 
+    /**
+     * 采用二维数组的样式
+     * */
+    public int findTargetSumWays_DP_two_dimensional_array(int[] nums, int s) {
+        int sum = 0;
+        for(int i: nums) sum+=i;
+        if(s>sum || s<-sum) return 0;
+
+        //按照自己梳理出来的
+        int[][] dp = new int[nums.length+1][2*sum+1];
+        // dp 就是cache标记的数字
+        // sum + nums[i] 就是第二维的数值，并且能保证不为0
+        for (int[] tmp :dp){
+            Arrays.fill(tmp,0);
+        }
+
+        dp[0][sum] = 1;
+        for(int i = 0; i<nums.length; i++){
+            for(int k = 0; k<2*sum+1; k++){
+                if(dp[i][k] != 0){
+                    dp[i+1][k+nums[i]] +=dp[i][k];
+                    dp[i+1][k-nums[i]] += dp[i][k];
+                }
+            }
+
+        }
+
+        return dp[nums.length][sum+s];
+    }
 
     public static void main(String[] args) {
 
@@ -150,19 +179,23 @@ public class L494_Target_Sum {
 
         int res = test.findTargetSumWays(new int[]{1, 1, 1, 1, 1}, 3);
         int res1 = test.findTargetSumWays_cache(new int[]{1, 1, 1, 1, 1},3);
-        System.out.println(res + " "+ res1);
+        int res2 = test.findTargetSumWays_DP_two_dimensional_array(new int[]{1, 1, 1, 1, 1},3);
+        System.out.println(res + " "+ res1 + " "+ res2 );
 
         res = test.findTargetSumWays(new int[]{1, 1}, 0);
         res1 = test.findTargetSumWays_cache(new int[]{1, 1},0);
-        System.out.println(res + " "+ res1);
+        res2 = test.findTargetSumWays_DP_two_dimensional_array(new int[]{1, 1},0);
+        System.out.println(res + " "+ res1 + " "+ res2 );
 
         res = test.findTargetSumWays(new int[]{0,0,0,0,0,0,0,0,1}, 1);
         res1 = test.findTargetSumWays_cache(new int[]{0,0,0,0,0,0,0,0,1}, 1);
-        System.out.println(res + " "+ res1);
+        res2 = test.findTargetSumWays_DP_two_dimensional_array(new int[]{0,0,0,0,0,0,0,0,1}, 1);
+        System.out.println(res + " "+ res1 + " "+ res2 );
 
         res = test.findTargetSumWays(new int[]{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}, 0);
         res1 = test.findTargetSumWays_cache(new int[]{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}, 0);
-        System.out.println(res + " "+ res1);
+        res2 = test.findTargetSumWays_DP_two_dimensional_array(new int[]{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}, 0);
+        System.out.println(res + " "+ res1 + " "+ res2 );
 
 
 //        res = test.findTargetSumWays(new int[]{1, 1, 1, 1, 1},5);
