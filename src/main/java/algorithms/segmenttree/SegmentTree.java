@@ -155,3 +155,16 @@ public class SegmentTree
 
 }
 
+class SegmentTreeForBigNode {
+    // 节点存储的值
+    public int start, end, max;
+    public SegmentTreeForBigNode left, right;
+    public SegmentTreeForBigNode(int start, int end, int max) {
+        this.start = start;
+        this.end = end;
+        this.max = max;
+        this.left = this.right = null;
+    }
+
+}
+
