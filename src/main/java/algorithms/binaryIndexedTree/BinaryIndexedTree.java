@@ -55,9 +55,32 @@ import java.util.Arrays;
  * https://github.com/cherryljr/LeetCode/blob/master/Range%20Sum%20Query%20-%20Mutable.java
  */
 public class BinaryIndexedTree {
+
+    public  int index(int[] arr, long val) {
+        int l = 0, r = arr.length - 1, m = 0;
+
+        while (l <= r) {
+            m = l + ((r - l) >> 1);
+
+            if (arr[m] >= val) {
+                r = m - 1;
+            } else {
+                l = m + 1;
+            }
+        }
+
+        return l + 1;
+    }
+
+
+
     public static void main(String[] args) {
         BinaryIndexTree BITree = new BinaryIndexTree();
         int[] arr = {0, 9, 5, 7, 3};
+        BinaryIndexedTree test = new BinaryIndexedTree();
+        Arrays.sort(arr);
+        System.out.println(test.index(arr,6));
+
         int[] trees =  BITree.buildBITree(arr);
         System.out.println(Arrays.toString(arr));
         System.out.println(Arrays.toString(trees));

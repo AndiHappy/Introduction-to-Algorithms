@@ -55,14 +55,35 @@ public class MergeSort {
 				j++;
 			}
 		}
-		
-		
 	}
-	
+
+	private void merger_Recursive(int[] nums, int start, int end) {
+		if (start >= end) return ;
+
+		int mid = start + ((end - start) >> 1);
+		merger_Recursive(nums, start, mid);
+		merger_Recursive(nums, mid + 1, end);
+
+		int firsti = start, sencondi = mid + 1, k = 0;
+		// 合并两个数组的临时的变量
+		int[] merge = new int[end - start + 1];
+
+		while (firsti <= mid) {
+			while (sencondi <= end && nums[firsti] >= nums[sencondi]){
+				merge[k++] = nums[sencondi++];
+			}
+			merge[k++] = nums[firsti++];
+		}
+
+		while (sencondi <= end) merge[k++] = nums[sencondi++];
+		System.arraycopy(merge, 0, nums, start, merge.length);
+	}
+
+
 	public static void main(String[] args) {
 		MergeSort mergesort = new MergeSort();
 		int[] a = new int[] {1,2,6,7,8,2,7,8,9};
-		mergesort.merge(a , 0, 5, a.length-1);
+		mergesort.merger_Recursive(a , 0, a.length-1);
 		Util.printToConsole(a);
 	}
 }

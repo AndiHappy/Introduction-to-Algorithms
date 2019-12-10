@@ -21,7 +21,40 @@ public class L493_Reverse_Pairs {
      *
      */
 
-    public static void main(String[] args) {
+    public int reversePairs(int[] nums) {
+        return reversePairsSub(nums, 0, nums.length - 1);
+    }
 
+    private int reversePairsSub(int[] nums, int start, int end) {
+        if (start >= end) return 0;
+
+        int mid = start + ((end - start) >> 1);
+        int res = reversePairsSub(nums, start, mid) + reversePairsSub(nums, mid + 1, end);
+
+        int firsti = start, sencondi = mid + 1, k = 0, p = mid + 1;
+        // 合并两个数组的临时的变量
+        int[] merge = new int[end - start + 1];
+
+        while (firsti <= mid) {
+            while (p <= end && nums[firsti] > 2l* nums[p]) p++;
+            res += p - (mid + 1);
+
+            while (sencondi <= end && nums[firsti] >= nums[sencondi]){
+                merge[k++] = nums[sencondi++];
+            }
+            merge[k++] = nums[firsti++];
+        }
+
+        while (sencondi <= end) merge[k++] = nums[sencondi++];
+
+        System.arraycopy(merge, 0, nums, start, merge.length);
+
+        return res;
+    }
+
+    public static void main(String[] args) {
+        L493_Reverse_Pairs test = new L493_Reverse_Pairs();
+        int value = test.reversePairs(new int[]{2147483647,2147483647,2147483647,2147483647,2147483647,2147483647});
+        System.out.println(value);
     }
 }
