@@ -27,9 +27,9 @@ public class Simple_Pack_Question_2_space_optimization {
         int n = c.length;
         int[] f = new int[V + 1];
         for(int i=1;i<=n;i++)
-            for(int v=V;v>=c[i-1];v--)
+            for(int v=V;v>=c[i-1];v--){
                 f[v]=Math.max(f[v],f[v-c[i-1]]+w[i-1]);  //加跟不加
-
+            }
 
         for (int i = 0; i < f.length; i++) {
             System.out.print(f[i] + " ");

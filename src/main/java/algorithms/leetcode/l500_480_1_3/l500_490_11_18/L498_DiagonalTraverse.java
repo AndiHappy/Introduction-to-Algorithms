@@ -1,6 +1,5 @@
-package algorithms.leetcode.l500_490_11_18;
+package algorithms.leetcode.l500_480_1_3.l500_490_11_18;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Stack;
 
@@ -35,6 +34,36 @@ public class L498_DiagonalTraverse {
 // The total number of elements of the given matrix will not exceed 10,000.
 //
 
+
+    public int[] findDiagonalOrder_s(int[][] matrix) {
+        if(matrix==null) return null;
+        if(matrix.length==1) return matrix[0];
+        int r=0,c=0,row = matrix.length,col = matrix[0].length;
+        int[] result = new int[row*col];
+        for (int i = 0; i < row*col ; i++) {
+            result[i]= matrix[r][c];
+            if((c+r) %2 == 0){
+                if(c+1 < col && r-1 >-1){
+                    c++;
+                    r--;
+                }else if(c+1 < col && r-1 <0){
+                    c++;
+                }else if(c+1 >= col && r+1 < row){
+                    r++;
+                }
+            }else if((c+r) % 2 == 1){
+                if(r+1 < row && c-1 > -1){
+                    r++;
+                    c--;
+                }else if (r+1 >= row && c+1 < col){
+                    c++;
+                }else if(r+1 < row && c-1 < 0){
+                    r++;
+                }
+            }
+        }
+        return result;
+    }
 
     public int[] findDiagonalOrder(int[][] matrix) {
         if (matrix == null || matrix.length == 0 || matrix[0].length == 0) return new int[0];
@@ -144,6 +173,9 @@ public class L498_DiagonalTraverse {
         int[] v = test.findDiagonalOrder(arrays);
         System.out.println(Arrays.toString(v));
 
+        v = test.findDiagonalOrder_s(arrays);
+        System.out.println(Arrays.toString(v));
+
         arrays = new int[][]{
                 {1, 2, 3},
                 {4, 5, 6},
@@ -151,6 +183,8 @@ public class L498_DiagonalTraverse {
         };
 
         v = test.findDiagonalOrder(arrays);
+        System.out.println(Arrays.toString(v));
+        v = test.findDiagonalOrder_s(arrays);
         System.out.println(Arrays.toString(v));
 
     }

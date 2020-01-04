@@ -1,4 +1,4 @@
-package algorithms.leetcode.l500_490_11_18;
+package algorithms.leetcode.l500_480_1_3.l500_490_11_18;
 
 
 /*

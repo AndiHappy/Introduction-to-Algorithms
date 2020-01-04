@@ -1,4 +1,4 @@
-package algorithms.leetcode.l500_490_11_18;
+package algorithms.leetcode.l500_480_1_3.l500_490_11_18;
 
 import java.util.*;
 
@@ -26,11 +26,14 @@ public class L491_Increasing_Subsequences {
 
 */
 
+public List<List<Integer>> findSubsequences( int[] nums){
+    List<List<Integer>> result = new ArrayList<List<Integer>>();
+//    findSubsequences(nums, result, new HashSet<Integer>(),new ArrayList<Integer>());
+    return result;
+}
 
 
-    /**
-     * 梳理一下全排列的写法
-     * */
+
     public List<List<Integer>> quanpailie(int[] nums) {
         List<List<Integer>> result = new ArrayList<List<Integer>>();
         quanpailie(nums, result, new HashSet<Integer>(),new ArrayList<Integer>());
