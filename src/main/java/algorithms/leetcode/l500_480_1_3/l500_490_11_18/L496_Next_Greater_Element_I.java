@@ -74,13 +74,15 @@ public class L496_Next_Greater_Element_I {
 
     /**
      * 参考下面的Related Topics Stack
-     * 如果我们使用栈进行解决，进行思路的分析，我们的事件复杂度在于查找NextGreateElement，这个时间复杂度是O(n),我们又遍历了一遍n，那么
+     * 如果我们使用栈进行解决，进行思路的分析，我们的事件复杂度在于查找NextGreateElement，
+     * 这个时间复杂度是O(n),我们又遍历了一遍n，那么
      * 事件复杂度就是O(N*N)
      *
      * 如果我们使用栈，我们重点的优化放在查找NextGreateElement，我们直接使用栈，把这个查找设置为O(1)
      *
      * */
     public int[] nextGreaterElement_stack(int[] nums1, int[] nums2) {
+
         if(nums1==null || nums2 == null || nums1.length == 0 || nums2.length ==0) return new int[0];
 
         HashMap<Integer,Integer> tmp = new HashMap<>();

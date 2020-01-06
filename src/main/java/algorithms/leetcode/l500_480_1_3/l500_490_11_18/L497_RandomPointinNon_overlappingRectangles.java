@@ -9,16 +9,18 @@ public class L497_RandomPointinNon_overlappingRectangles {
 
 /*
  Given a list of non-overlapping axis-aligned rectangles rects,
-    不重复的轴对齐矩形
- write a function pick which randomly and uniformily picks an integer point
- in the space covered by the rectangles.
-    随机的均匀的挑选矩形中的点
+    给定一个不重叠的轴对齐矩形的列表
+ write a function pick which randomly  写一个随机选择的函数
+ and uniformily picks an integer point in the space covered by the rectangles.
+    并在矩形所覆盖的空间中均匀地选择一个整数点。
 
  Note:
 
-
- An integer point is a point that has integer coordinates 坐标.
+ An integer point is a point that has integer coordinates
+ 整数点是具有整数坐标的点
  A point on the perimeter of a rectangle is included in the space covered by the rectangles.
+ 矩形周长上的点包含在矩形所覆盖的空间中。
+
  ith rectangle = rects[i] = [x1,y1,x2,y2], where [x1, y1] are the
  integer coordinates of the bottom-left corner,
  and [x2, y2] are the integer coordinates of the top-right corner.
@@ -49,8 +51,6 @@ Input:
 Output:
 [null,[-1,-2],[2,0],[-2,-1],[3,0],[-2,-2]]
 
-
-
  Explanation of Input Syntax:
 
  The input is two lists: the subroutines called and their arguments.
@@ -78,11 +78,17 @@ Output:
 
     /**
      * The core strategy is that we pick a rectangle randomly, and then pick a point from that rectangle randomly.
-     * Step 1: We can calculate area of each rectangle, and then accumulate their areas, put into the treeMap with
-     * corresponding index.
-     * Step 2: pick a random number from 0 to total areaSum, and then use binary search to find the position of rectangle
+     *
+     * Step 1: We can calculate area of each rectangle, and then accumulate their areas,
+     * put into the treeMap with corresponding index.
+     *
+     * Step 2: pick a random number from 0 to total areaSum,
+     * and then use binary search to find the position of rectangle
+     *
      * with random areaSum (by using treeMap to find ceilingKey, we can do it in O(lgn) time)
-     * Step 3: after picking a random rectangle, we can randomly pick a point by randomly picking its x value and y value
+     *
+     * Step 3: after picking a random rectangle, we can randomly pick a point by randomly picking
+     * its x value and y value
      * in the picked rectangle
      * */
     public L497_RandomPointinNon_overlappingRectangles(int[][] rects) {
