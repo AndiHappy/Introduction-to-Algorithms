@@ -56,6 +56,5 @@ public class SelectSort {
 		select_sort(arrays);
 		Util.printToConsole(arrays);
 
-		
 	}
 }
