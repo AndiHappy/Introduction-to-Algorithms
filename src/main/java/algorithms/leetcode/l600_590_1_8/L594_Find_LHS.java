@@ -1,9 +1,9 @@
 package algorithms.leetcode.l600_590_1_8;
 
+import java.util.HashMap;
+
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.HashMap;
 
 public class L594_Find_LHS {
 
